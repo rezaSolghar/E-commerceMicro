@@ -15,12 +15,15 @@ public class CustomerService {
     private final CustomerMapper mapper;
 
     public String createCustomer(CustomerRequest request) {
-        var customer = repository.save(mapper.toCustomer(request));
-        return customer.getId();
+        var customer = repository
+                .save(mapper.toCustomer(request));
+        return customer
+                .getId();
     }
 
     public void updateCustomer(CustomerRequest request) {
-        var customer = repository.findById(request.id())
+        var customer = repository
+                .findById(request.id())
                 .orElseThrow(() -> new CustomerNotFoundException(
                     String.format("Cannot update customer:: No customer found with this ID:: %s", request.id())
                 ));
@@ -44,23 +47,28 @@ public class CustomerService {
     }
 
     public List<CustomerResponse> findAllCustomers() {
-        return repository.findAll()
+        return repository
+                .findAll()
                 .stream()
                 .map(mapper::fromCustomer)
                 .collect(Collectors.toList());
     }
 
     public Boolean existsById(String customerId) {
-        return repository.findById(customerId).isPresent();
+        return repository
+                .findById(customerId)
+                .isPresent();
     }
 
     public CustomerResponse findById(String customerId) {
-        return repository.findById(customerId)
+        return repository
+                .findById(customerId)
                 .map(mapper::fromCustomer)
                 .orElseThrow(() -> new CustomerNotFoundException(String.format("no customer founded by this ID:: %s", customerId)));
     }
 
     public void deleteCustomer(String customerId) {
-        repository.deleteById(customerId);
+        repository
+                .deleteById(customerId);
     }
 }
